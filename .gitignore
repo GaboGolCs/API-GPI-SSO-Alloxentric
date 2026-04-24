@@ -1,0 +1,21 @@
+# Entornos virtuales
+.venv/
+venv/
+env/
+
+# Variables de entorno y secretos
+.env
+*.pem
+
+# Archivos cacheados de Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Configuración de VS Code e IDEs
+.vscode/
+.idea/
+
+# Archivos de SO
+.DS_Store
+Thumbs.db
