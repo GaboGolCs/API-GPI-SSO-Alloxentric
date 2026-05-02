@@ -16,6 +16,11 @@ __pycache__/
 .vscode/
 .idea/
 
+
+
+.env
+service-account.json
+
 # Archivos de SO
 .DS_Store
 Thumbs.db

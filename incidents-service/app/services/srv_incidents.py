@@ -4,7 +4,7 @@
 # Aqui podemos hcaer modificaciones a la solicitud por ejemplo.
 
 from app.repositories.incident_repo import IncidentRepository
-from app.schemas.incident import IncidentCreate
+from app.schemas.scm_incidents import IncidentCreate
 
 
 class IncidentService:
@@ -15,6 +15,18 @@ class IncidentService:
     def get_all_incidents(self):
         # Aquí podríamos filtrar o transformar datos antes de devolverlos
         return self.repo.get_all()
+
+    def get_incident_by_id(self, client_id: str):
+        print(
+            f"Buscando incidente con ID de cliente: {client_id}"
+        )  # Imprime el ID para verificar que se recibe correctamente.
+        # Aquí podríamos agregar lógica para manejar casos especiales, como si el incidente no existe
+        bd_response = self.repo.get_by_id(client_id)
+        if bd_response is None:
+            print(f"No se encontró ningún incidente con ID de cliente: {client_id}")
+            return {"error": "Incident not found"}
+
+        return bd_response
 
     def create_incident(self, data: IncidentCreate, user_id: str):
         # Aquí podríamos agregar reglas de negocio, por ejemplo:
