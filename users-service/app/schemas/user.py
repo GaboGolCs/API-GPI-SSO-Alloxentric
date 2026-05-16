@@ -40,3 +40,8 @@ class CurrentUser(BaseModel):
     id: str
     role: str
     client_id: str
+
+
+class InternalAuthRequest(BaseModel):
+    client_id: str
+    email: EmailStr

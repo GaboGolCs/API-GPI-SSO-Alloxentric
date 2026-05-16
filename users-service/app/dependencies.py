@@ -4,9 +4,11 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from google.cloud import firestore
 from typing import Callable
 from app.schemas.user import CurrentUser
+from app.config import settings
 
-SECRET_KEY = "tu_super_clave_secreta_temporal_para_desarrollo"  # Esto luego va en .env
-ALGORITHM = "HS256"
+# Lo ideal a futuro es que esto también se lea de un archivo .env usando pydantic-settings
+SECRET_KEY = settings.JWT_SECRET
+ALGORITHM = settings.JWT_ALGORITHM
 
 
 _db_client = None
@@ -27,7 +29,7 @@ async def get_current_user(
 ) -> CurrentUser:
     token = credentials.credentials
     try:
-        # Decodificamos nuestro propio JWT
+        # Decodificamos el JWT real validando la firma
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
 
         # 1. Extraemos los valores en variables
@@ -48,10 +50,8 @@ async def get_current_user(
     except jwt.ExpiredSignatureError:
         raise HTTPException(status_code=401, detail="Token expirado")
     except jwt.PyJWTError:
-        # MOCK TEMPORAL: Para que puedas seguir probando en Swagger sin el auth-service aún
-        if token == "test-token-admin":
-            return CurrentUser(id="usr_test", role="admin", client_id="client_test")
-        raise HTTPException(status_code=401, detail="Token inválido")
+        # ¡MOCK ELIMINADO! Si el token falla, bloqueamos el paso directamente.
+        raise HTTPException(status_code=401, detail="Token inválido o firma incorrecta")
 
 
 def verify_role(*allowed_roles: str) -> Callable:

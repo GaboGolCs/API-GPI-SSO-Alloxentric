@@ -91,3 +91,13 @@ class UserService:
             raise DatabaseOperationError(
                 detail=str(e) + " No se han podido eliminar el usuario."
             )
+
+    async def get_user_for_auth_internal(
+        self, client_id: str, email: str
+    ) -> dict | None:
+        """
+        Método exclusivo para uso interno (Auth Service).
+        Devuelve el diccionario completo del usuario, incluyendo el hashed_password.
+        """
+        user_data = await self.repo.get_by_email(client_id, email)
+        return user_data
