@@ -1,0 +1,16 @@
+[project]
+name = "dashboard-service"
+version = "0.1.0"
+description = "Dashboard & Heat Map Service - SSO Alloxentric"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi[standard]>=0.136.1",
+    "uvicorn>=0.46.0",
+    "pydantic>=2.13.3",
+    "pydantic-settings>=2.14.0",
+    "google-cloud-firestore>=2.27.0",
+    "pyjwt>=2.12.1",
+    "python-dotenv>=1.2.2",
+    "python-ulid>=3.1.0",
+]

@@ -1,0 +1,21 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Entornos virtuales y caché
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+
+# Bloquear las variables de entorno
+.env
+
+# Bloquear la cuenta de servicio de Google/Firebase explícitamente
+service-account.json
+*.json
