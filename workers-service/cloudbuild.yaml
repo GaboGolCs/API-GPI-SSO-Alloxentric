@@ -1,0 +1,63 @@
+steps:
+  # ── 1. Run linter ──────────────────────────────────────────────────────────
+  - name: "python:3.11-slim"
+    id: lint
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        pip install ruff --quiet
+        ruff check app/ tests/
+
+  # ── 2. Run tests ───────────────────────────────────────────────────────────
+  - name: "python:3.11-slim"
+    id: test
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        pip install uv --quiet
+        uv pip install --system -e ".[dev]" --quiet
+        pytest tests/ --cov=app --cov-report=term-missing -q
+    env:
+      - APP_ENV=test
+
+  # ── 3. Build Docker image ──────────────────────────────────────────────────
+  - name: "gcr.io/cloud-builders/docker"
+    id: build
+    args:
+      - build
+      - -t
+      - "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/workers-service:${SHORT_SHA}"
+      - -t
+      - "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/workers-service:latest"
+      - .
+
+  # ── 4. Push image ──────────────────────────────────────────────────────────
+  - name: "gcr.io/cloud-builders/docker"
+    id: push
+    args:
+      - push
+      - --all-tags
+      - "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/workers-service"
+
+  # ── 5. Deploy to Cloud Run ─────────────────────────────────────────────────
+  - name: "gcr.io/cloud-builders/gcloud"
+    id: deploy
+    args:
+      - run
+      - deploy
+      - workers-service
+      - --image=${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/workers-service:${SHORT_SHA}
+      - --region=${_REGION}
+      - --platform=managed
+      - --no-allow-unauthenticated
+      - --service-account=${_SA_EMAIL}
+
+substitutions:
+  _REGION: us-central1
+  _REPO: services
+  _SA_EMAIL: workers-service@${PROJECT_ID}.iam.gserviceaccount.com
+
+options:
+  logging: CLOUD_LOGGING_ONLY
