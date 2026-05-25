@@ -1,0 +1,12 @@
+Posts
+{
+  "type": "Acto Inseguro",
+  "is_iap": true,
+  "area_id": "zona_ensamblaje_04",
+  "shift": "Turno Mañana",
+  "description": "Se observó al personal manipulando la prensa hidráulica sin utilizar los guantes anticorte reglamentarios.",
+  "evidences": [
+    "https://storage.googleapis.com/tu-bucket/fotos/incidente_001.jpg",
+    "https://storage.googleapis.com/tu-bucket/videos/camara_seguridad_12.mp4"
+  ]
+}

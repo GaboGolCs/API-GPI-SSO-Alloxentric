@@ -1,0 +1,12 @@
+[project]
+name = "alerts-service"
+version = "1.0.0"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi[standard]>=0.115.0",
+    "google-cloud-firestore>=2.19.0",
+    "python-dotenv>=1.0.0",
+    "pyjwt>=2.8.0",
+    "python-ulid>=2.2.0",
+    "pydantic>=2.0.0",
+]

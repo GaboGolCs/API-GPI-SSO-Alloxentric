@@ -1,0 +1,19 @@
+[project]
+name = "reports-service"
+version = "0.1.0"
+description = "reports Microservice"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "cloudinary>=1.44.2",
+    "dotenv>=0.9.9",
+    "fastapi>=0.136.1",
+    "google-cloud-firestore>=2.27.0",
+    "pydantic>=2.13.3",
+    "pydantic-settings>=2.14.0",
+    "pyjwt>=2.12.1",
+    "python-dotenv>=1.2.2",
+    "python-multipart>=0.0.29",
+    "python-ulid>=3.1.0",
+    "uvicorn>=0.46.0",
+]
